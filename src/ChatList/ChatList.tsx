@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import ChatListItem from "./Item";
 
-import { WhatsAppDatabaseParser } from "../Api/WhatsAppDatabaseParser";
-
 import "./ChatList.css";
 
 interface ChatListProps {
@@ -26,7 +24,24 @@ class ChatList extends Component<ChatListProps> {
   constructor(props: ChatListProps) {
     super(props);
 
-    this.isLoading = true;
+    this.isLoading = false;
+
+    this.chats = [
+      {
+        id: 1,
+        name: "Test",
+        last_message_preview: "Eine Nachricht",
+        last_message_timestamp: new Date(),
+        image_src: "logo192.png"
+      },
+      {
+        id: 2,
+        name: "Test2",
+        last_message_preview: "Eine andere Nachricht",
+        last_message_timestamp: new Date(),
+        image_src: "logo192.png"
+      }
+    ];
   }
 
   renderListItem(chat: Chat) {
@@ -35,7 +50,7 @@ class ChatList extends Component<ChatListProps> {
         key={chat.id}
         ID={chat.id}
         name={chat.name}
-        time={chat.last_message_timestamp.toTimeString()}
+        time={chat.last_message_timestamp.toLocaleTimeString()}
         content={chat.last_message_preview}
         image_src={chat.image_src}
         selected={this.props.selectedChat === chat.id}

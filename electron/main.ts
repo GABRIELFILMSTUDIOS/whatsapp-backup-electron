@@ -8,7 +8,7 @@ let win: BrowserWindow | null = null;
 function createWindow() {
   win = new BrowserWindow({
     width: 800,
-    height: 800,
+    height: 600,
     webPreferences: {
       nodeIntegration: true
     }
@@ -32,6 +32,11 @@ function createWindow() {
       hardResetMethod: 'exit'
     });
   }
+
+  // DevTools
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
 
   if (isDev) {
     win.webContents.openDevTools();

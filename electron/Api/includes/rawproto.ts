@@ -1,6 +1,4 @@
-import protobufjs from 'protobufjs'
-
-const { Reader } = protobufjs
+import { Reader } from 'protobufjs'
 
 // indent by count
 const indent = (count: number) => Array(count).join('  ')
