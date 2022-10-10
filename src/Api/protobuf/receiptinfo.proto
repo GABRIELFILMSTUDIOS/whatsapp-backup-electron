@@ -1,0 +1,32 @@
+syntax = "proto3";
+package whatsappbackup;
+
+message ReceiptInfo {
+    message ReceiptInfoSingleLegacy {
+        optional string phone_number = 1; // Phone number of the person
+        /* sometimes 1 is an object containing one or multiple 6's and 7's */
+        optional int32 unknown_number = 2;
+        optional int32 received_timestamp = 3; // Timestamp when this message was received by this person
+        optional int32 read_timestamp = 4; // Timestamp when this message was read by this person
+        optional int32 unkown_timestamp = 5; // Timestamp of ??? (maybe when played for voice messages?)
+    }
+    message ReceiptInfoSingle {
+        message ReceiptInfoSingleUnkownThing {
+            optional int32 one = 1;
+            optional int32 two = 2;
+        }
+        optional bytes phone_number = 1; // Phone number of the person, obfuscated: turn bytes into hex -> read from third character = phone number
+        optional int32 offset_received_timestamp = 4; // Offset from sent_timestamp when this message was received by this person
+        optional int32 offset_read_timestamp = 5; // Offset from sent_timestamp when this message was read by this person
+        optional int32 unknown_only_once = 6; // appears only once in dataset
+        repeated ReceiptInfoSingleUnkownThing unknown_thing_one = 9;
+        repeated ReceiptInfoSingleUnkownThing unknown_thing_two = 10;
+    }
+    repeated ReceiptInfoSingleLegacy single_legacy = 1 [deprecated = true];
+    /* message only contains 1 (legacy) OR 2-6 */
+    repeated ReceiptInfoSingle single = 2;
+    optional int32 sent_timestamp = 3; //Timestamp of when the message was sent in UNIX Epoch
+    optional int32 unknown = 4; //unknown
+    optional int32 unknown_2 = 5; //unknown
+    optional int32 unknown_3 = 6; //unknown
+}

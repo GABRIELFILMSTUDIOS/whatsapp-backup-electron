@@ -1,0 +1,9 @@
+.ChatViewContent {
+  background-color: darkturquoise;
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  padding-left: 15px;
+  padding-right: 15px;
+}

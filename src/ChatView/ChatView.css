@@ -1,0 +1,10 @@
+.ChatViewWrapper {
+  width: 70%;
+  height: 100%;
+}
+
+.ChatView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

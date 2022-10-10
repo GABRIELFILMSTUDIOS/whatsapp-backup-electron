@@ -1,0 +1,62 @@
+.ChatListItem {
+  display: flex;
+  height: 100%;
+  /* border-bottom: lightgrey solid 1px; */
+}
+
+.ChatListItemWrapper.selected {
+  background-color: lightgrey;
+}
+
+.ChatListItemWrapper {
+  height: 100px;
+}
+
+.ChatListItemIcon img {
+  height: 100%;
+}
+
+.ChatListItemIconWrapper {
+  margin: 20px;
+}
+
+.ChatListItemIcon {
+  height: 100%;
+  border: black solid 1px;
+  border-radius: 50px;
+}
+
+.ChatListItemPreview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ChatListItemPreviewHeader {
+  display: inline-flex;
+  margin: 20px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+}
+
+.ChatListItemPreviewTime {
+  font-style: italic;
+}
+
+.ChatListItemPreviewName {
+  /* margin: 20px; */
+  /* margin-bottom: 5px; */
+  margin-right: 50px;
+  font-weight: bold;
+}
+
+.ChatListItemPreviewWrapper {
+  border-bottom: lightgrey solid 1px;
+  width: calc(100% - 60px);
+}
+
+.ChatListItemPreviewContent {
+  text-align: left;
+  margin-top: auto;
+  margin-bottom: auto;
+}

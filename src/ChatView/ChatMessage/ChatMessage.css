@@ -1,0 +1,19 @@
+.ChatMessageWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.ChatMessageWrapper.fromMe {
+  align-items: self-end;
+}
+
+.ChatMessage {
+  max-width: 80%;
+  min-width: 30%;
+  background: white;
+  padding: 10px;
+  border-radius: 7px;
+  box-shadow: 0.5px 0.5px 3px 0px darkgrey;
+}

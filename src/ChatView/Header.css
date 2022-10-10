@@ -1,0 +1,26 @@
+.ChatViewHeader {
+  height: 80px;
+  border-bottom: black solid 1px;
+  display: flex;
+}
+
+.ChatViewHeader img {
+  height: 80%;
+  margin: auto;
+}
+
+.ChatViewHeaderInfo {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.ChatViewHeaderInfoName {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.ChatViewHeaderInfoParticipants {
+  font-style: italic;
+}

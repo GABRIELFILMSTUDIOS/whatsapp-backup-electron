@@ -1,0 +1,8 @@
+.ChatMessageTimestampWrapper {
+  font-style: italic;
+  text-align: right;
+  float: right;
+  bottom: 0px;
+  position: relative;
+  color: darkslategrey;
+}
