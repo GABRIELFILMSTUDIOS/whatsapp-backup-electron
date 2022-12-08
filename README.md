@@ -1,6 +1,15 @@
+# Goal of this project
+The ultimate goal of this project is to be read the databases of Messengers including at least WhatsApp (iOS and Android) and Signal and export them into a format that retains all or most data (including at least message text and metadata such as what message this is a reply to, message reactions and read/received timestamps). This format needs to be machine-readable and viewable with this app. This is currently not possible with the export function in WhatsApp, which only exports Message text, attached media and message timestamp.
+The export format should be open-source and documented, to be able to reconstruct it when this software becomes abandonware. Ideally there should be an export method retaining as much data as possible but also being human-readable.
+The App should be extendable, as to make it easy to integrate more messengers.
+
+Additionally, the format of WhatsApps Database should be documented.
+
+The ultiamte goal might never be archived, so the bare minimum goal for this project is an App to view as much data as possible from WhatsApps Database and is extendable to other messengers and to document WhatsApps Database.
+
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). **Below instructions are not up-to-date as electron was included.**
 
 ## Available Scripts
 

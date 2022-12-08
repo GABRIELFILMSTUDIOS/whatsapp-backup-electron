@@ -1,0 +1,220 @@
+/**
+ * Guessed .proto definitions for the protobuf saved in
+ * the ZRECEIPTINFO column of the ZWAMESSAGEINFO table
+ * in the ChatStorage database.
+ * Compile with `protobufjs-cli` to update type definition file and the static .js
+ *
+ * ```
+ * cd [this directory]
+ * npx pbjs -t static-module --force-number -o receiptinfo.js receiptinfo.proto
+ * npx pbts -o receiptinfo.d.ts receiptinfo.js
+ * ```
+ *
+ * @see https://www.npmjs.com/package/protobufjs-cli#pbts-for-typescript
+ */
+
+syntax = "proto3";
+package receiptinfo;
+
+message MessageInfo {
+    /**
+     * Receipt info for a single recipient.
+     * Old format, does not appear for newer messages.
+     */
+    message ReceiptInfoSingleLegacy {
+        /** phone number of the person */
+        optional string phone_number = 1;
+
+        /* sometimes 1 is an object containing one or multiple 6's and 7's. Maybe a boolean? */
+        optional uint32 unknown_number = 2;
+
+        /** Timestamp when this message was received by this person. UNIX epoch in seconds. */
+        optional uint32 received_timestamp_seconds = 3;
+
+        /** Timestamp when this message was read by this person. UNIX epoch in seconds. */
+        optional uint32 read_timestamp_seconds = 4;
+
+        /** Timestamp of ??? (maybe when played for voice messages?). UNIX epoch in seconds. */
+        optional uint32 played_timestamp_seconds = 5;
+    }
+
+    /**
+     * Receipt info for a single recipient, new format.
+     */
+    message ReceiptInfoSingle {
+        message ReceiptInfoSingleUnkownThing {
+            optional uint32 one = 1;
+            optional uint32 two = 2;
+        }
+
+        /**
+         * Phone number of the person, obfuscated:
+         * turn bytes into hex -> read from third character = phone number
+         */
+        optional bytes phone_number = 1;
+
+        /**
+         * Offset from sent_timestamp when this message (in parent)
+         * was received by this person. UNIX epoch in seconds.
+         */
+        optional uint32 offset_received_timestamp_seconds = 4;
+
+        /**
+         * Offset from sent_timestamp when this message (in parent)
+         * was read by this person. UNIX epoch in seconds.
+         */
+        optional uint32 offset_read_timestamp_seconds = 5;
+
+        /**
+         * Only observed once. Probably:
+         * Offset from sent_timestamp when this message (in parent)
+         * was played by this person. UNIX epoch in seconds.
+         */
+        optional uint32 offset_played_timestamp_seconds = 6;
+        repeated ReceiptInfoSingleUnkownThing unknown_thing_one = 9;
+        repeated ReceiptInfoSingleUnkownThing unknown_thing_two = 10;
+    }
+
+    /**
+     * Reactions to a message.
+     */
+    message Reactions {
+        /**
+         * A reaction to a message.
+         */
+        message Reaction {
+            /** Unknown. Appears to be a string containing characters 0-9,A-F */
+            string unknown_hex = 1;
+
+            /** WhatsAppJID of person reacting to the message */
+            optional string whatsAppJID = 2;
+
+            /** The reaction emoji */
+            string emoji = 3;
+
+            /**
+             * Timestamp when this reaction was sent.
+             * UNIX epoch in milliseconds
+             */
+            uint64 reaction_timestamp_milliseconds = 4;
+
+            /**
+             * Unknown
+             */
+            uint32 unkonwn_thing_two = 5;
+        }
+
+        /**
+         * A single reaction
+         */
+        repeated Reaction reaction = 1;
+    }
+
+    /**
+     * Contains information on the poll (if this message is a poll).
+     */
+    message Poll {
+        /**
+         * An option to the poll.
+         */
+        message PollOption {
+            /** Option title */
+            string title = 1;
+        }
+
+        /**
+         * The response to the poll from a single person.
+         */
+        message PollResponse {
+            /** Voted options, indexed by 0 */
+            repeated uint32 voted_option = 1;
+
+            /**
+             * Timestamp when this person responded to the poll.
+             * UNIX epoch in milliseconds.
+             * Only one timestamp is saved, even if there are multiple
+             * `voted_option`s. Timestamp is timestamp of last response.
+             */
+            uint64 timestamp_milliseconds = 2;
+
+            /* unknown, observed as either 20 or 32 characters hex code */
+            string unkown_hex = 3;
+
+            /**
+             * WhatsAppJID of the respondent.
+             * not set if own response.
+             */
+            optional string whats_app_jid = 4;
+
+            /* unknown, observed as timestamp rounded somehow */
+            optional uint64 other_timestamp = 5;
+        }
+
+        /**
+         * Unknown.
+         */
+        message UnkownMessage {
+            uint64 unknown_field = 1;
+        }
+
+        /** Title of the poll. */
+        string title = 2;
+
+        /** Options of the poll */
+        repeated PollOption option = 3;
+
+        /** Unknown */
+        optional uint64 unknown_thing_1 = 4;
+
+        /** Response from people that are not the phone owner */
+        repeated PollResponse their_response = 5;
+
+        /** Own response */
+        optional PollResponse own_response = 6;
+
+        /** Unknown */
+        optional uint64 unknown_thing_2 = 7;
+
+        /** Unknown */
+        optional UnkownMessage unkown_thing_3 = 8;
+    }
+
+    /**
+     * Legacy format of the receipt info for a single person.
+     * Only observed messages containing 1 (legacy) OR 2-6 
+     */
+    repeated ReceiptInfoSingleLegacy single_legacy = 1 [deprecated = true];
+
+    /**
+     * New format of the receipt info for a single person.
+     * Only observed messages containing 1 (legacy) OR 2-6 
+     */
+    repeated ReceiptInfoSingle single = 2;
+
+    /**
+     * Timestamp when this message was sent.
+     * UNIX epoch in seconds.
+     * Assumed to be uint32, as this is easier
+     * in JS (avoid type `long`).
+     * This should work till around year 2100.
+     */
+    optional uint32 sent_timestamp_seconds = 3;
+
+    /** Unknown. */
+    optional uint32 unknown = 4;
+
+    /** Unknown. */
+    optional uint32 unknown_2 = 5;
+    
+    /** Unknown. */
+    optional uint32 unknown_3 = 6;
+
+    /** Reactions to this message */
+    optional Reactions reactions = 7;
+
+    /** Poll info for this message */
+    optional Poll poll_info = 8;
+
+    /** Unknown string. Observed as empty */
+    optional string unknown_string = 10;
+}

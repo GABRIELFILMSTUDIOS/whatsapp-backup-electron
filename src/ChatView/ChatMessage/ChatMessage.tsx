@@ -5,27 +5,27 @@ import ChatMessageContent from "./Content";
 import ChatMessageTimestamp from "./Timestamp";
 
 import "./ChatMessage.css";
+import { Message } from '../../../electron/api/Model'
+import { MessageType } from '../../api-enums';
 
 interface ChatMessageProps {
-  ID: number;
+  message: Message;
 }
 
 class ChatMessage extends Component<ChatMessageProps> {
-  private readonly isFromMe: boolean;
-
   constructor(props: ChatMessageProps) {
     super(props);
-
-    this.isFromMe = props.ID === 3;
   }
 
   render() {
+    let { message } = this.props;
+
     return (
-      <div className={`ChatMessageWrapper ${this.isFromMe ? "fromMe" : ""}`}>
-        <div className="ChatMessage">
-          <ChatMessageHeader name="Name" />
-          <ChatMessageContent content="Loerm ipsum dolor sit amet" />
-          <ChatMessageTimestamp date={new Date()} />
+      <div className={`ChatMessageWrapper ${this.props.message.isFromMe ? "fromMe" : ""} ${this.props.message.type == MessageType.SYSTEM_MESSAGE ? "systemMessage" : ""}`} onClick={() => console.log(message)}>
+        <div className={`ChatMessage  ${this.props.message.loadErrors ? "error" : ""}`}>
+          <ChatMessageHeader name={this.props.message.from ? this.props.message.from.fullName : ''} />
+          <ChatMessageContent message={this.props.message} />
+          <ChatMessageTimestamp date={this.props.message.messageDate} />
         </div>
       </div>
     );

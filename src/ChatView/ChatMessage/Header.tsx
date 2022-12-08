@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./Header.css";
 
 interface ChatMessageHeaderProps {
-  name: string;
+  name?: string;
 }
 
 class ChatMessageHeader extends Component<ChatMessageHeaderProps> {

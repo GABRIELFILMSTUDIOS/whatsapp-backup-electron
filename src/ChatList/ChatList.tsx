@@ -1,47 +1,25 @@
 import React, { Component } from "react";
+import { Chat } from "../../electron/api/Model";
 import ChatListItem from "./Item";
 
 import "./ChatList.css";
+import { ContextBridgeAPI } from "../../electron/preload";
 
 interface ChatListProps {
-  selectedChat: number | undefined;
-  changeSelectedChat: (newChat: number) => void;
+  selectedChat: string | undefined;
+  changeSelectedChat: (newChat: string) => void;
 }
 
-interface Chat {
-  id: number;
-  name: string;
-  last_message_preview: string;
-  last_message_timestamp: Date;
-  image_src: string;
+interface ChatListState {
+  loadedChats?: Chat[];
 }
 
-class ChatList extends Component<ChatListProps> {
-  private isLoading: boolean;
-
+class ChatList extends Component<ChatListProps, ChatListState> {
   private chats?: Chat[];
 
   constructor(props: ChatListProps) {
     super(props);
-
-    this.isLoading = false;
-
-    this.chats = [
-      {
-        id: 1,
-        name: "Test",
-        last_message_preview: "Eine Nachricht",
-        last_message_timestamp: new Date(),
-        image_src: "logo192.png"
-      },
-      {
-        id: 2,
-        name: "Test2",
-        last_message_preview: "Eine andere Nachricht",
-        last_message_timestamp: new Date(),
-        image_src: "logo192.png"
-      }
-    ];
+    this.state = {};
   }
 
   renderListItem(chat: Chat) {
@@ -50,22 +28,24 @@ class ChatList extends Component<ChatListProps> {
         key={chat.id}
         ID={chat.id}
         name={chat.name}
-        time={chat.last_message_timestamp.toLocaleTimeString()}
-        content={chat.last_message_preview}
-        image_src={chat.image_src}
+        time={chat.lastMessageDate}
+        content={chat.lastMessagePreview}
+        image_src={'logo192.png'}
         selected={this.props.selectedChat === chat.id}
-        onClick={() => this.props.changeSelectedChat(chat.id)}
+        onClick={() => this.props.changeSelectedChat(`${chat.providerID}:${chat.id}`)}
       />
     );
   }
 
   render() {
-    if (this.isLoading) return <div className="ChatList">loading...</div>;
-    if (!this.chats)
-      throw new Error(`'chats' was ${this.chats} but isLoading was false.`);
+    if (!this.state.loadedChats) {
+      window.api.chats.getChats()
+        .then((chats) => this.setState({loadedChats: chats}));
+      return <div className="ChatList">loading...</div>
+    }
     return (
       <div className="ChatList">
-        {this.chats.map((chat) => this.renderListItem(chat))}
+        {this.state.loadedChats.map((chat) => this.renderListItem(chat))}
       </div>
     );
   }

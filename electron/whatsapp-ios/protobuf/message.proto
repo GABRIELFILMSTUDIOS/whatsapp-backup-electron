@@ -1,0 +1,44 @@
+/**
+ * Guessed .proto definitions for the protobuf saved in
+ * the ZPUSHNAME (as base64 encoded) column and the
+ * the ZLASTMESSAGEPREVIEW (as base64 encoded) column
+ * of the ZWAMESSAGE table in the ChatStorage database.
+ * Compile with `protobufjs-cli` to update type definition file and the static .js
+ *
+ * ```
+ * cd [this directory]
+ * npx pbjs -t static-module --force-number -o message.js message.proto
+ * npx pbts -o message.d.ts message.js
+ * ```
+ *
+ * @see https://www.npmjs.com/package/protobufjs-cli#pbts-for-typescript
+ */
+
+ syntax = "proto3";
+ package message;
+ 
+message PushName {
+    uint32 timestamp_seconds = 1;
+    string whats_app_jid = 3;
+    uint32 maybe_boolean = 4;
+}
+
+message LastMessagePreview {
+    
+    message LastReaction {
+        string unknown_hex = 1;
+        string reaction = 2;
+        uint64 timestamp_milliseconds = 3;
+        uint32 maybe_boolean = 4;
+    }
+
+
+    uint32 maybe_bolean_3 = 3;
+    uint32 maybe_bolean_7 = 7;
+    uint32 unknown_number_11 = 11;
+    string unknown_hex_maybe_apple_contact_id = 12;
+    string unknown_hex = 13;
+    string unknown_string_containing_chat_session_jid = 17;
+    LastReaction last_reaction = 18;
+    uint32 unknown_number_19 = 19;
+}

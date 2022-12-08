@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ChatList from "./ChatList/ChatList";
 import ChatView from "./ChatView/ChatView";
 import "./App.css";
+import { Chat } from "../electron/api/Model";
+
 
 // import { Database, OPEN_READONLY } from "sqlite3";
 
@@ -16,10 +18,13 @@ import "./App.css";
 //   }
 // );
 
-interface AppProps {}
+interface AppProps {
+}
 
 interface AppState {
-  activeChatID: number | undefined;
+  activeChatID: string | undefined;
+  activeChatHasFailedLoading: boolean;
+  activeChat?: Chat;
 }
 
 class App extends Component<AppProps, AppState> {
@@ -28,7 +33,18 @@ class App extends Component<AppProps, AppState> {
 
     this.state = {
       activeChatID: undefined,
+      activeChatHasFailedLoading: false
     };
+  }
+
+  updateActiveChat(newChatId: string) {
+    this.setState({ activeChatID: newChatId, activeChat: undefined }, () => {
+      window.api.chats.getChatByID(newChatId)
+        .then(
+          (chat) => this.setState({activeChat: chat, activeChatHasFailedLoading: false}),
+          (err) => this.setState({activeChatHasFailedLoading: true})
+        );
+    })
   }
 
   render() {
@@ -36,11 +52,10 @@ class App extends Component<AppProps, AppState> {
       <div className="App">
         <ChatList
           selectedChat={this.state.activeChatID}
-          changeSelectedChat={(newChatID) =>
-            this.setState({ activeChatID: newChatID })
+          changeSelectedChat={(newChatId) => this.updateActiveChat(newChatId)
           }
         />
-        <ChatView chatID={this.state.activeChatID} />
+        <ChatView chat={this.state.activeChat} />
       </div>
     );
   }

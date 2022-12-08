@@ -6,4 +6,6 @@
   justify-content: flex-start;
   padding-left: 15px;
   padding-right: 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }

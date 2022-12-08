@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "homepage": ".",
   "main": "build/electron/main.js",
-  "author": "Your Name",
+  "author": "Gabriel von Dehn",
   "description": "React-TypeScript-Electron sample with Create React App and Electron Builder",
   "build": {
     "extends": null,
@@ -37,12 +37,14 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && yarn electron:postbuild && electron .\"",
+    "electron:build": "yarn build && tsc -p electron && yarn electron:postbuild && electron-builder",
+    "electron:postbuild": "copyfiles -e \"./**/*.ts\" -e \"./**/*.js\" -e \"./**/tsconfig.json\" -V \"./electron/**\" \"./build\"", 
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-main": "tsc --sourceMap --outDir build electron/main.ts && yarn electron:postbuild && node ./build/main.js"
   },
   "eslintConfig": {
     "extends": [
@@ -63,10 +65,13 @@
     ]
   },
   "devDependencies": {
+    "@types/node-ipc": "^9.2.0",
     "concurrently": "^7.4.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "electron": "^21.1.0",
     "electron-builder": "^23.6.0",
+    "protobufjs-cli": "^1.0.2",
     "wait-on": "^6.0.1"
   }
 }

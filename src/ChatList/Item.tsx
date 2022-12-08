@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import "./Item.css";
 
 interface ChatListItemProps {
-  ID: number;
+  ID: string;
   name: string;
-  time: string;
+  time?: Date;
   content: string;
   image_src: string;
   selected: boolean;
@@ -39,7 +39,7 @@ class ChatListItem extends Component<ChatListItemProps, ChatListItemState> {
             <div className="ChatListItemPreview">
               <div className="ChatListItemPreviewHeader">
                 <div className="ChatListItemPreviewName">{name}</div>
-                <div className="ChatListItemPreviewTime">{time}</div>
+                <div className="ChatListItemPreviewTime">{time?.toLocaleTimeString()}</div>
               </div>
               <div className="ChatListItemPreviewContent">{content}</div>
             </div>

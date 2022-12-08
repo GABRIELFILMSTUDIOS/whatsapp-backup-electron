@@ -3,9 +3,11 @@ import ChatViewHeader from "./Header";
 import ChatViewContent from "./Content";
 
 import "./ChatView.css";
+import { Chat } from "../../electron/api/Model";
 
 interface ChatViewProps {
-  chatID: number | undefined;
+  chat?: Chat;
+  hasFailedLoading?: boolean
 }
 
 class ChatView extends Component<ChatViewProps> {
@@ -14,16 +16,17 @@ class ChatView extends Component<ChatViewProps> {
   }
 
   render() {
-    if (this.props.chatID) {
+    if(this.props.hasFailedLoading) return (<div>There was an error</div>)
+    if (this.props.chat) {
       return (
         <div className="ChatViewWrapper">
           <div className="ChatView">
-            <ChatViewHeader chatID={this.props.chatID} />
-            <ChatViewContent chatID={this.props.chatID} />
+            <ChatViewHeader chat={this.props.chat} />
+            <ChatViewContent chat={this.props.chat} />
           </div>
         </div>
       );
-    } else {
+    } else { // No chat selected
       return (
         <div className="ChatViewWrapper">
           <div className="ChatView">No Chat selected.</div>

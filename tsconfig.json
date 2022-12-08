@@ -7,6 +7,7 @@
       "esnext"
     ],
     "allowJs": true,
+    "sourceMap": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,6 +22,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "electron/Api/includes"  ]
+    "src",
+    "electron/api_v0/includes"  
+, "electron/src/Model.ts"  ]
 }

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./Timestamp.css";
 
 interface ChatMessageTimestampProps {
-  date: Date;
+  date?: Date;
 }
 
 class ChatMessageTimestamp extends Component<ChatMessageTimestampProps> {
@@ -15,7 +15,7 @@ class ChatMessageTimestamp extends Component<ChatMessageTimestampProps> {
     return (
       <div className="ChatMessageTimestampWrapper">
         <div className="ChatMessageTimestamp">
-          <span>{this.props.date.toDateString()}</span>
+          <span>{this.props.date?.toLocaleTimeString()}</span>
         </div>
       </div>
     );

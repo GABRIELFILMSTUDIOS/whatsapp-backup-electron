@@ -1,0 +1,285 @@
+/**
+ * Guessed .proto definitions for the protobuf saved in
+ * the ZMETADATA column of the ZWAMEDIAITEM table
+ * in the ChatStorage database.
+ * Compile with `protobufjs-cli` to update type definition file and the static .js
+ *
+ * ```
+ * cd [this directory]
+ * npx pbjs -t static-module --force-number -o mediaitem.js mediaitem.proto
+ * npx pbts -o mediaitem.d.ts mediaitem.js
+ * ```
+ *
+ * @see https://www.npmjs.com/package/protobufjs-cli#pbts-for-typescript
+ */
+
+syntax = "proto3";
+package mediaitem;
+ 
+message Metadata {
+    message ReferencedMessage {
+        message AttachedMedia {
+            /**
+             * Format "https://mmg.whatsapp.net/ *.enc"
+             */
+            optional string whatsapp_download_url = 1;
+
+            /**
+             * MIME-Type of this media
+             */
+            optional string mime_type = 2;
+
+            /**
+             * Text of the description the sender sent with
+             * this message.
+             */
+            optional string media_decription_message_text = 3;
+
+            // Maybe something to do with encryption?
+            optional bytes unknown_bytes_4 = 4;
+            optional uint32 unknown_number_5 = 5;
+            optional uint32 unknown_number_6 = 6;
+            optional uint32 unknown_number_7 = 7;
+            optional bytes unknown_bytes_8 = 8;
+            optional bytes unknown_bytes_9 = 9;
+
+            /**
+             * Another url to download the media from.
+             * Appears to hold same contents as the url
+             * at `whatsapp_download_url`, but has a significantly
+             * longer format and misses the domain.
+             * Format: "*.enc?*"
+             */
+            optional string whatsapp_download_url_long = 11;
+
+            /**
+             * Appears to be timestamp of the referenced media
+             */
+            optional uint64 media_timestamp_unix_milliseconds = 12;
+
+            optional bytes unknown_bytes_16 = 16;
+            optional bytes unknown_bytes_18 = 18;
+            optional uint32 unknown_number_19 = 19;
+            optional bytes unknown_bytes_21 = 21;
+            repeated uint32 unknown_number_22 = 22;
+            optional bytes unknown_bytes_23 = 23;
+
+            optional uint32 maybe_boolean_25 = 25;
+        }
+
+        message AttachedWebsite {
+            message AdditionalInfo {
+                repeated string mentioned_jid = 15;
+            }
+
+            /** 
+             * The URL of the attached media.
+             * I have no idea why there are multiple, they were always observed as being identical
+             */
+            optional string url_1 = 1;
+
+            /** 
+             * The URL of the attached media.
+             * I have no idea why there are multiple, they were always observed as being identical
+             */
+            optional string url_2 = 2;
+
+            /** 
+             * The URL of the attached media. Sometimes this field is an empty string
+             */
+            optional string url_4 = 4;
+
+            /** 
+             * The URL of the attached media. Sometimes this field is empty
+             */
+            optional string url_5 = 5;
+
+            /** preview text to be displayed in the app */
+            optional string preview = 6;
+
+            optional uint32 maybe_boolean_10 = 10;
+
+            optional bytes unknown_bytes_16 = 16;
+
+            optional AdditionalInfo additional_info = 17;
+
+            optional string preview_media_whatsapp_download_url_long = 19;
+            optional bytes unknown_bytes_20 = 20;
+            optional bytes unknown_bytes_21 = 21;
+            optional bytes unknown_bytes_22 = 22;
+
+            optional uint64 timestamp_unix_milliseconds = 23;
+            optional uint32 unknown_number_24 = 24;
+            optional uint32 unknown_number_25 = 25;
+
+            optional uint32 maybe_boolean_29 = 29;
+        }
+
+        message AttachedPDF {
+            /**
+             * Format "https://mmg.whatsapp.net/ *.enc"
+             */
+            optional string whatsapp_download_url = 1;
+
+             /**
+              * MIME-Type of this media
+              */
+            optional string mime_type = 2;
+
+            /**
+             * Title of this media. Set e.g. for PDFs.
+             */
+            optional string title = 3;
+
+            // Maybe something to do with encryption?
+            optional bytes unknown_bytes_4 = 4;
+            optional uint32 unknown_number_5 = 5;
+            optional uint32 unknown_number_6 = 6;
+            optional uint32 unknown_number_7 = 7;
+
+            /** File name of the PDF, including extension */
+            optional string file_name = 8;
+            optional bytes unknown_bytes_9 = 9;
+
+            /**
+             * Another url to download the media from.
+             * Appears to hold same contents as the url
+             * at `whatsapp_download_url`, but has a significantly
+             * longer format and misses the domain.
+             * Format: "*.enc?*"
+             */
+            optional string whatsapp_download_url_long = 10;
+
+            /**
+             * Appears to be timestamp of the referenced media
+             */
+            optional uint64 media_timestamp_unix_milliseconds = 11;
+
+            optional uint64 maybe_boolean_12 = 12;
+            optional bytes unknown_bytes_16 = 16;
+        }
+
+        optional string text = 1;
+
+        optional AttachedMedia attached_media = 3;
+
+        optional AttachedWebsite attached_website = 6;
+
+        optional AttachedPDF attached_pdf = 7;
+    }
+
+    message CachedPreviewMedia {
+        optional uint32 unkown_number_3 = 3;
+        optional uint32 unknown_number_4 = 4;
+
+        /**
+         * Another url to download the media from.
+         * Appears to hold same contents as the url
+         * at `whatsapp_download_url`, but has a significantly
+         * longer format and misses the domain.
+         * Format: "*.enc?*"
+         */
+        optional string whatsapp_download_url_long = 5;
+
+        optional bytes unknown_bytes_6 = 6;
+        optional bytes unknown_bytes_7 = 7;
+
+        /**
+         * The local path (relative to /Message) of this preview
+         * media.
+         */
+        optional string local_path = 8;
+
+        optional uint64 timestamp_unix_milliseconds = 9;
+    }
+
+    message InfoForMessageToBusiness {
+        optional uint32 maybe_boolean_2 = 2;
+    }
+
+    message Sticker {
+        optional uint32 maybe_boolean_3 = 3;
+        optional uint64 timestamp_unix_milliseconds = 4;
+    }
+
+    message MaybeVoiceMemoInfo {
+        optional string maybe_string = 1;
+    }
+
+    /**
+     * The originally sent URL, including URL params.
+     */
+    optional string url_original = 1;
+
+    /**
+     * The resolved URL, following any redirects and possibly stripping tracking params. Sometimes empty string.
+     */
+    optional string url_location_resolved = 2;
+
+    /**
+     * The preview text of this media (for external media, e.g. links)
+     */
+    optional string external_media_preview_text_cache = 3;
+
+    /**
+     * The url of this media on WhatsApps servers (without domain). It is stored there encrypted.
+     * Prepend this with "https://mmg.whatsapp.net/" to download the file.
+     */
+    optional string whatsapp_media_download_location_encrypted = 4;
+
+    /**
+     * The `stanza id` (column `ZSTANZAID`) of the message this is a rely/reference to.
+     */
+    optional string referenced_message_stanza_id = 5;
+
+    /**
+     * The `JID` of the sender of the message this is a reply/reference to.
+     * Apparently not set if referenced message was sent by self.
+     */
+    optional string referenced_message_sender_jid = 6;
+
+    /**
+     * The `JID` of the group of the message this is a reply/reference to.
+     * Not set if this message is sent in the same group/chat as the message it is referencing.
+     */
+    optional string referenced_message_chat_jid = 7;
+
+    /**
+     * `JID`s of people mentioned in the message
+     */
+    repeated string mentioned_jid = 8;
+
+    optional uint32 unknown_number_11 = 11;
+
+    optional uint32 unknown_maybe_boolean_13 = 13;
+
+    optional uint32 possibly_bool_15 = 15;
+
+    optional uint32 unknown_maybe_boolean_16 = 16;
+
+    optional uint32 possibly_bool_17 = 17;
+
+    optional ReferencedMessage referenced_message = 19;
+
+    optional uint32 unknown_maybe_boolean_30 = 30;
+
+    optional Sticker sticker = 32;
+
+    optional uint32 possibly_bool_46 = 46;
+
+    optional CachedPreviewMedia cached_preview_media = 47;
+
+    optional InfoForMessageToBusiness info_for_message_to_business = 48;
+
+    optional uint32 unknown_number_50 = 50;
+
+    optional MaybeVoiceMemoInfo maybe_voice_memo_info = 55;
+
+    optional bytes unknown_bytes_68 = 68;
+
+    optional uint32 possibly_bool_70 = 70;
+
+    optional uint32 unknown_number_72 = 72;
+
+    optional string unkown_string_73 = 73;
+}
